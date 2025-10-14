@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tình Yêu Của Chúng Ta 💖</title>
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(180deg, #ffcce6, #ffe6f2);
+    height: 100vh;
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  h1 {
+    color: #d63384;
+    font-size: 3em;
+    text-shadow: 2px 2px 5px #fff;
+    z-index: 10;
+    position: relative;
+    animation: fadeIn 3s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .heart, .photo {
+    position: absolute;
+    bottom: -80px;
+    opacity: 0.9;
+    animation: floatUp 10s linear infinite;
+  }
+
+  .heart {
+    width: 25px;
+    height: 25px;
+    background-color: pink;
+    transform: rotate(45deg);
+  }
+
+  .heart::before,
+  .heart::after {
+    content: "";
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background-color: pink;
+    border-radius: 50%;
+  }
+
+  .heart::before { top: -12.5px; left: 0; }
+  .heart::after { left: -12.5px; top: 0; }
+
+  .photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    animation: floatUp 12s linear infinite;
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
+    border: 3px solid #fff;
+  }
+
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+  }
+
+  #qr {
+    position: absolute;
+    bottom: 40px;
+    display: none;
+    text-align: center;
+    animation: fadeIn 2s ease-in-out;
+  }
+
+  #qr img {
+    width: 160px;
+    height: 160px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #ff1493;
+  }
+
+  #qr p {
+    color: #d63384;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+  <h1>I Love You 3000 💞</h1>
+  <div id="container"></div>
+
+  <!-- 🎵 Nhạc nền I Love You 3000 -->
+  <!-- ...existing code... -->
+<!-- ...existing code... -->
+<audio id="bg-music" loop>
+  <source src="love.mp3" type="audio/mpeg">
+</audio>
+<script>
+  // Phát nhạc khi click vào màn hình
+  document.body.addEventListener("click", function() {
+    document.getElementById("bg-music").play();
+  }, { once: true }); // chỉ phát 1 lần
+
+</script>
+<!-- ...existing code... -->
+
+  
+
+<script>
+  const container = document.getElementById("container");
+  const heartCount = 25;
+
+  // 🩷 Danh sách ảnh của hai bạn (thêm bao nhiêu tùy thích)
+  const photoSources = [
+    "img1.jpeg",
+    "img2.jpg",
+    "img3.jpg",
+    "img4.jpg",
+    "img5.jpg",
+    "img6.jpg",
+    "img7.jpg",
+    "img8.jpg",
+    "img9.jpg",
+    "img10.jpg"
+  ];
+
+ 
+  for (let i = 0; i < heartCount; i++) {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = 6 + Math.random() * 5 + "s";
+    heart.style.backgroundColor = `rgba(255, ${100 + Math.random()*100}, ${150 + Math.random()*100}, 0.9)`;
+    container.appendChild(heart);
+  }
+
+  for (let i = 0; i < photoSources.length; i++) {
+    const photo = document.createElement("div");
+    photo.classList.add("photo");
+    const img = document.createElement("img");
+    img.src = photoSources[i];
+    photo.appendChild(img);
+    photo.style.left = Math.random() * 100 + "vw";
+    photo.style.animationDelay = Math.random() * 5 + "s";
+    photo.style.animationDuration = 10 + Math.random() * 6 + "s";
+    container.appendChild(photo);
+  }
+
+  
+  setTimeout(() => {
+    document.getElementById("qr").style.display = "block";
+  }, 10000);
+</script>
+</body>
+</html>
