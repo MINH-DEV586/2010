@@ -15,6 +15,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    position: relative;
   }
 
   h1 {
@@ -80,92 +81,195 @@
     100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
   }
 
-  #qr {
+  /* --- Thư --- */
+  .envelope {
+    width: 250px;
+    height: 180px;
+    background: #fff3f8;
+    border: 2px solid #ff8ac9;
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: transform 0.3s;
+    z-index: 10;
+  }
+
+  .envelope:hover { transform: scale(1.05); }
+
+  .envelope::before {
+    content: "";
     position: absolute;
-    bottom: 40px;
-    display: none;
-    text-align: center;
-    animation: fadeIn 2s ease-in-out;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom right, #ffd6e8, #ffe6f5);
+    clip-path: polygon(0 0, 100% 0, 50% 50%);
   }
 
-  #qr img {
-    width: 160px;
-    height: 160px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px #ff1493;
+  .heart-icon {
+    font-size: 2em;
+    color: #ff4b9b;
+    z-index: 2;
   }
 
-  #qr p {
-    color: #d63384;
+  .open-btn {
+    margin-top: 15px;
+    background: #ff80bf;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 25px;
+    cursor: pointer;
     font-weight: bold;
+    transition: 0.3s;
+  }
+
+  .open-btn:hover {
+    background: #ff4b9b;
+  }
+
+  /* --- Hộp thư hiện nội dung --- */
+  .letter-box {
+    display: none;
+    position: fixed;
+    width: 80%;
+    max-width: 500px;
+    height: 70vh;
+    background: #fff0f6;
+    border-radius: 20px;
+    border: 3px solid #ff99cc;
+    box-shadow: 0 0 25px rgba(255, 105, 180, 0.6);
+    overflow-y: auto;
+    padding: 25px;
+    line-height: 1.6;
+    color: #d63384;
+    font-size: 1.05em;
+    z-index: 20;
+    animation: fadeIn 1s ease;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: #ff99cc;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .typing {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
   }
 </style>
 </head>
 <body>
-  <h1>Iuu iemm bé nhất trên đờiii</h1>
+  <h1>Iuu iemm bé nhất trên đờiii 💖</h1>
   <div id="container"></div>
 
-  <!-- 🎵 Nhạc nền I Love You 3000 -->
-  <!-- ...existing code... -->
-<!-- ...existing code... -->
-<audio id="bg-music" loop>
-  <source src="love.mp3" type="audio/mpeg">
-</audio>
-<script>
-  // Phát nhạc khi click vào màn hình
-  document.body.addEventListener("click", function() {
-    document.getElementById("bg-music").play();
-  }, { once: true }); // chỉ phát 1 lần
+  <!-- Phong bì thư -->
+  <div class="envelope" id="envelope">
+    <div class="heart-icon">💌</div>
+    <p>knock knock... open me up! (∩˃o˂∩)♡</p>
+    <button class="open-btn">open it &lt;3</button>
+  </div>
 
-</script>
-<!-- ...existing code... -->
+  <!-- Hộp thư -->
+  <div class="letter-box" id="letterBox">
+    <button class="close-btn" id="closeLetter">×</button>
+    <div id="letterText" class="typing"></div>
+  </div>
 
-  
+  <!-- Nhạc nền -->
+  <audio id="bg-music" loop>
+    <source src="love.mp3" type="audio/mpeg">
+  </audio>
 
-<script>
-  const container = document.getElementById("container");
-  const heartCount = 25;
+  <script>
+    const container = document.getElementById("container");
+    const heartCount = 25;
+    const photoSources = [
+      "img1.jpeg","img2.jpg","img3.jpg","img4.jpg","img5.jpg",
+      "img6.jpg","img7.jpg","img8.jpg","img9.jpg","img10.jpg"
+    ];
 
-  
-  const photoSources = [
-    "img1.jpeg",
-    "img2.jpg",
-    "img3.jpg",
-    "img4.jpg",
-    "img5.jpg",
-    "img6.jpg",
-    "img7.jpg",
-    "img8.jpg",
-    "img9.jpg",
-    "img10.jpg"
-  ];
+    // Tạo tim và ảnh bay
+    for (let i = 0; i < heartCount; i++) {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 6 + Math.random() * 5 + "s";
+      container.appendChild(heart);
+    }
 
- 
-  for (let i = 0; i < heartCount; i++) {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = 6 + Math.random() * 5 + "s";
-    heart.style.backgroundColor = `rgba(255, ${100 + Math.random()*100}, ${150 + Math.random()*100}, 0.9)`;
-    container.appendChild(heart);
-  }
+    for (let i = 0; i < photoSources.length; i++) {
+      const photo = document.createElement("div");
+      photo.classList.add("photo");
+      const img = document.createElement("img");
+      img.src = photoSources[i];
+      photo.appendChild(img);
+      photo.style.left = Math.random() * 100 + "vw";
+      photo.style.animationDelay = Math.random() * 5 + "s";
+      photo.style.animationDuration = 10 + Math.random() * 6 + "s";
+      container.appendChild(photo);
+    }
 
-  for (let i = 0; i < photoSources.length; i++) {
-    const photo = document.createElement("div");
-    photo.classList.add("photo");
-    const img = document.createElement("img");
-    img.src = photoSources[i];
-    photo.appendChild(img);
-    photo.style.left = Math.random() * 100 + "vw";
-    photo.style.animationDelay = Math.random() * 5 + "s";
-    photo.style.animationDuration = 10 + Math.random() * 6 + "s";
-    container.appendChild(photo);
-  }
+    // Nhạc
+    document.body.addEventListener("click", function() {
+      document.getElementById("bg-music").play();
+    }, { once: true });
 
-  
-  setTimeout(() => {
-    document.getElementById("qr").style.display = "block";
-  }, 10000);
-</script>
+    // --- Hiệu ứng mở thư + chữ chạy ---
+    const envelope = document.getElementById("envelope");
+    const letterBox = document.getElementById("letterBox");
+    const closeLetter = document.getElementById("closeLetter");
+    const letterText = document.getElementById("letterText");
+
+    const letterContent = `Xin chào em bé của a nha a đang viết cái bức thư này là mấy ngày trước ròi chữ a xấu lắm lên viết tay hong có đẹp ý nên là a tạo web này choa iem. 
+Em xinh lắm ý đối với a là thế chưa bao giờ a thấy em xấu cả nên là khi thấy thì chụp cho a một kiểu ảnh nhá. 
+E cũng ko biết là em em đọc thư này lúc nào nhưng mà ui nhanh thật nhờ mình đã yêu nhau được 3 tháng ròi đấy cũng sắp được 100 ngày lun. 
+Cảm giác kiểu uầy như mới ngày nào còn về Tân Lạc xong đi với e. Nhưng có một sự thật là hôm đấy chưa định nói đâu tại ko biết là ý em có thic a ko. 
+Xong một hồi em kiểu tín hiệu cho thì mới dám nói thế là chúng ta đã thành ngiu. 
+Thấm thoát cũng đã đến bây h a nghĩ là cũng ko qúa ít cũng không quá dài, dạo này cũng trải qua nhiều sóng gió những mà a nghĩ rằng mình cùng nhau mình nói ra mình nghĩ như nào ròi để đối phương hiểu ròi mình cũng thấy thoải mái hơn. 
+A iu iem lắm ý a iu iem nhiều lắm nhớ ơi là nhớ nhiều lúc khó khắn kiểu mà lúc iem bị mưa này xong có chuyện mà a chỉ ở xa xong ùi nói thui nghĩ cũng thương iem ơi là thương ý mà hong có làm được gì cả mong chúng ta sẽ cùng nhau vượt qua. 
+Mà nhớ e thật nha nhiều lúc nhớ xong bị đơ ý kiểu là bị nghĩ đến iem xongg đơ kiểu mất tập trung luôn. 
+Có nhiều lúc a làm iem buồn lòng với cả hong có hài lòng chỗ nào cho a xin lũi iem nhiều nhá a sẽ cố gắng hong làm em buồn đâu tại em cười xinh hơn mà với cả iu iem nhiều lắm ko muốn iem buồn đâu. 
+Có chuyện này nữa a nói nhiều lắm ròi những mà vẫn phải nói lại là vẫn phải tập trung vào việc học nha còn có j cứ bỏ a sang một bên học trc đã có gì a hộ được a sẽ hộ mà a hong bic a sẽ đi học để biết để chỉ được iem nên là cố gắng nên nha. 
+Cuối cùng muốn nói với e là a iu iem nhiều lắm moaa moaaa !!!`;
+
+    function typeText(text, element, speed = 60) {
+      const words = text.split(" ");
+      let i = 0;
+      element.innerHTML = "";
+      const interval = setInterval(() => {
+        element.innerHTML += words[i] + " ";
+        element.scrollTop = element.scrollHeight;
+        i++;
+        if (i >= words.length) clearInterval(interval);
+      }, speed);
+    }
+
+    envelope.querySelector(".open-btn").addEventListener("click", () => {
+      envelope.style.display = "none";
+      letterBox.style.display = "block";
+      typeText(letterContent, letterText, 80);
+    });
+
+    closeLetter.addEventListener("click", () => {
+      letterBox.style.display = "none";
+      envelope.style.display = "flex";
+      letterText.innerHTML = "";
+    });
+  </script>
 </body>
 </html>
